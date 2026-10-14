@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navalha Barbearia - Agendamento</title>
+    <!-- Fonte moderna e limpa -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Ícones (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9f7f4;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background-image: radial-gradient(circle at 10% 20%, rgba(200, 170, 130, 0.1) 0%, transparent 30%);
+        }
+
+        .card {
+            background: #ffffff;
+            max-width: 680px;
+            width: 100%;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+            border: 1px solid #e9e2d8;
+        }
+
+        .header {
+            background: #1e1e1e;
+            padding: 2rem 2rem 1.8rem;
+            text-align: center;
+            color: #f5efe8;
+            position: relative;
+            border-bottom: 4px solid #c9a87c;
+        }
+
+        .header h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 6px;
+        }
+
+        .header h1 i {
+            color: #c9a87c;
+            font-size: 2.2rem;
+        }
+
+        .header p {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #b9aa98;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .header p i {
+            font-size: 0.9rem;
+            color: #c9a87c;
+        }
+
+        .form-container {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1e1e1e;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.3px;
+        }
+
+        label i {
+            color: #c9a87c;
+            width: 18px;
+            font-size: 1rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.85rem 1.2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            background: #f9f7f4;
+            border: 1.5px solid #e2d9ce;
+            border-radius: 18px;
+            outline: none;
+            transition: all 0.2s ease;
+            color: #1e1e1e;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #c9a87c;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(201, 168, 124, 0.15);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #a89f94;
+            font-weight: 400;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .horarios-disponiveis {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+
+        .horario-opcao {
+            background: #f0ebe4;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1e1e1e;
+            cursor: default;
+            border: 1px solid transparent;
+            transition: 0.1s;
+        }
+
+        .horario-opcao i {
+            color: #c9a87c;
+            margin-right: 4px;
+            font-size: 0.75rem;
+        }
+
+        .btn-agendar {
+            background: #1e1e1e;
+            color: #f5efe8;
+            border: none;
+            width: 100%;
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin-top: 1.8rem;
+            letter-spacing: 0.5px;
+            border: 1px solid #1e1e1e;
+        }
+
+        .btn-agendar i {
+            color: #c9a87c;
+            font-size: 1.2rem;
+        }
+
+        .btn-agendar:hover {
+            background: #c9a87c;
+            color: #1e1e1e;
+            border-color: #c9a87c;
+        }
+
+        .btn-agendar:hover i {
+            color: #1e1e1e;
+        }
+
+        .btn-agendar:active {
+            transform: scale(0.98);
+        }
+
+        .footer-info {
+            margin-top: 1.2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #7a6e62;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-info i {
+            color: #c9a87c;
+            margin-right: 4px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #e9e2d8;
+            margin: 0.5rem 0 1.2rem;
+        }
+
+        /* responsivo */
+        @media (max-width: 520px) {
+            .header h1 {
+                font-size: 1.9rem;
+            }
+            .header h1 i {
+                font-size: 1.6rem;
+            }
+            .form-container {
+                padding: 1.5rem;
+            }
+            .row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .card {
+                border-radius: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- Cabeçalho / Logo -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-cut"></i>
+                Navalha
+                <i class="fas fa-razor"></i>
+            </h1>
+            <p>
+                <i class="fas fa-map-pin"></i> Barbearia clássica & moderna
+                <i class="fas fa-clock"></i>
+            </p>
+        </div>
+
+        <!-- Formulário de agendamento -->
+        <div class="form-container">
+            <form id="agendamentoForm">
+                <!-- Nome -->
+                <div class="form-group">
+                    <label for="nome">
+                        <i class="fas fa-user"></i> Nome completo
+                    </label>
+                    <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required>
+                </div>
+
+                <!-- Telefone e Email (linha dupla) -->
+                <div class="row">
+                    <div class="form-group">
+                        <label for="telefone">
+                            <i class="fas fa-phone-alt"></i> Telefone
+                        </label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i> E-mail (opcional)
+                        </label>
+                        <input type="email" id="email" name="email" placeholder="cliente@email.com">
+                    </div>
+                </div>
+
+                <!-- Serviço -->
+                <div class="form-group">
+                    <label for="servico">
+                        <i class="fas fa-scissors"></i> Serviço desejado
+                    </label>
+                    <select id="servico" name="servico" required>
+                        <option value="" disabled selected>Selecione um serviço</option>
+                        <option value="corte">✂️ Corte masculino — R$ 55</option>
+                        <option value="barba">🧔 Barba na navalha — R$ 45</option>
+                        <option value="corte_barba">💈 Corte + Barba — R$ 90</option>
+                        <option value="infantil">👦 Corte infantil — R$ 40</option>
+                        <option value="pigmentacao">🎨 Pigmentação — R$ 35</option>
+                        <option value="hidratacao">💧 Hidratação — R$ 50</option>
+                    </select>
+                </div>
+
+                <!-- Data e Horário (linha dupla) -->
+                <div class="row">
+                    <div class="form-group">
+                        <label for="data">
+                            <i class="fas fa-calendar-alt"></i> Data
+                        </label>
+                        <input type="date" id="data" name="data" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="horario">
+                            <i class="fas fa-clock"></i> Horário
+                        </label>
+                        <select id="horario" name="horario" required>
+                            <option value="" disabled selected>Escolha o horário</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="12:00">12:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                            <option value="19:00">19:00</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Observações -->
+                <div class="form-group">
+                    <label for="observacoes">
+                        <i class="fas fa-comment-dots"></i> Observações (opcional)
+                    </label>
+                    <textarea id="observacoes" name="observacoes" placeholder="Alguma preferência? Ex: máquina 2 nas laterais..."></textarea>
+                </div>
+
+                <!-- Horários disponíveis apenas informativo -->
+                <div class="form-group" style="margin-bottom: 0.5rem;">
+                    <label style="font-weight: 500; color: #7a6e62;">
+                        <i class="fas fa-check-circle" style="color: #c9a87c;"></i> Horários com boa disponibilidade
+                    </label>
+                    <div class="horarios-disponiveis">
+                        <span class="horario-opcao"><i class="fas fa-check"></i> 09:00</span>
+                        <span class="horario-opcao"><i class="fas fa-check"></i> 10:00</span>
+                        <span class="horario-opcao"><i class="fas fa-check"></i> 14:00</span>
+                        <span class="horario-opcao"><i class="fas fa-check"></i> 16:00</span>
+                        <span class="horario-opcao"><i class="fas fa-check"></i> 17:00</span>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Botão de agendamento -->
+                <button type="submit" class="btn-agendar">
+                    <i class="fas fa-calendar-check"></i> Confirmar agendamento
+                </button>
+
+                <!-- Informações extras de contato/endereço -->
+                <div class="footer-info">
+                    <span><i class="fas fa-map-marker-alt"></i> Rua das Tesouras, 123 — Centro</span>
+                    <span><i class="fas fa-phone"></i> (11) 4002-8922</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script simples para feedback e data mínima -->
+    <script>
+        (function() {
+            // Definir data mínima como hoje
+            const dataInput = document.getElementById('data');
+            const hoje = new Date();
+            const ano = hoje.getFullYear();
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+            const dia = String(hoje.getDate()).padStart(2, '0');
+            const dataMinima = `${ano}-${mes}-${dia}`;
+            dataInput.min = dataMinima;
+            // Definir valor padrão como amanhã (para não pegar hoje se estiver tarde)
+            const amanha = new Date(hoje);
+            amanha.setDate(hoje.getDate() + 1);
+            const anoAmanha = amanha.getFullYear();
+            const mesAmanha = String(amanha.getMonth() + 1).padStart(2, '0');
+            const diaAmanha = String(amanha.getDate()).padStart(2, '0');
+            if (!dataInput.value) {
+                dataInput.value = `${anoAmanha}-${mesAmanha}-${diaAmanha}`;
+            }
+
+            // Máscara simples para telefone (opcional)
+            const telefoneInput = document.getElementById('telefone');
+            telefoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.slice(0, 11);
+                if (value.length > 10) {
+                    e.target.value = `(${value.slice(0,2)}) ${value.slice(2,7)}-${value.slice(7)}`;
+                } else if (value.length > 6) {
+                    e.target.value = `(${value.slice(0,2)}) ${value.slice(2,6)}-${value.slice(6)}`;
+                } else if (value.length > 2) {
+                    e.target.value = `(${value.slice(0,2)}) ${value.slice(2)}`;
+                } else if (value.length > 0) {
+                    e.target.value = `(${value}`;
+                }
+            });
+
+            // Manipular envio do formulário
+            const form = document.getElementById('agendamentoForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Coletar dados
+                const nome = document.getElementById('nome').value.trim();
+                const telefone = document.getElementById('telefone').value.trim();
+                const servicoSelect = document.getElementById('servico');
+                const servico = servicoSelect.options[servicoSelect.selectedIndex]?.text || 'Serviço';
+                const data = document.getElementById('data').value;
+                const horario = document.getElementById('horario').value;
+
+                // Validação básica
+                if (!nome || !telefone || !servico || !data || !horario) {
+                    alert('⚠️ Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+
+                // Formatar data para exibição
+                const dataObj = new Date(data + 'T00:00:00');
+                const dataFormatada = dataObj.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+                // Mensagem de confirmação simples (simulação de agendamento)
+                alert(`✅ Agendamento confirmado na Navalha!\n\nCliente: ${nome}\nServiço: ${servico}\nData: ${dataFormatada}\nHorário: ${horario}\n\nEm breve enviaremos uma confirmação por telefone.`);
+
+                // Opcional: resetar formulário (menos campos)
+                // form.reset();
+                // dataInput.value = `${anoAmanha}-${mesAmanha}-${diaAmanha}`; // repor data padrão
+            });
+        })();
+    </script>
+    <script src="servidor.js"></script>
+</body>
+</html>
